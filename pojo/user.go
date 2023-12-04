@@ -6,10 +6,10 @@ import ("golangAPI/database"
 )
 
 type User struct { //
-	Id       int    `json:"UserId" validate:"required"`
-	Name     string `json:"UserName" validate:"required"`
-	Password string `json:"UserPassword" validate:"required,min=4,max=20"`
-	Email    string `json:"UserEmail" validate:"email"`
+	Id       int    `json:"UserId" binding:"required"`
+	Name     string `json:"UserName" binding:"required"`
+	Password string `json:"UserPassword" binding:"required,min=4,max=20,userpasd"`
+	Email    string `json:"UserEmail" binding:"email"`
 }
 
 func FindAllUsers() []User {

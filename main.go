@@ -8,6 +8,8 @@ import (
 	"os"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gin-gonic/gin/binding"
+	"github.com/go-playground/validator/v10"
 )
 
 func setupLogging(){
@@ -20,8 +22,14 @@ func main(){
 	setupLogging()
 	//Engine是RouterGroup的子类
 	engine:=gin.Default()
+	if v,ok:=binding.Validator.Engine().(*validator.Validate);ok{
+		v.RegisterValidation("userpasd",middlewares.UserPasd)
+	}
 
-	engine.Use(gin.BasicAuth(gin.Accounts{"tom":"12345",}),middlewares.Logger())
+	engine.Use(gin.BasicAuth(gin.Accounts{"tom":"12345",}),
+	middlewares.Logger(),
+	gin.Recovery(),
+	)
 
 
 	v1:=engine.Group("/v1")
