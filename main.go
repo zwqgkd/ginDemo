@@ -6,7 +6,7 @@ import (
 	. "golangAPI/src"
 	"io"
 	"os"
-
+	"golangAPI/pojo"
 	"github.com/gin-gonic/gin"
 	"github.com/gin-gonic/gin/binding"
 	"github.com/go-playground/validator/v10"
@@ -24,11 +24,14 @@ func main(){
 	engine:=gin.Default()
 	if v,ok:=binding.Validator.Engine().(*validator.Validate);ok{
 		v.RegisterValidation("userpasd",middlewares.UserPasd)
+		v.RegisterStructValidation(middlewares.UserList,pojo.Users{})
 	}
 
-	engine.Use(gin.BasicAuth(gin.Accounts{"tom":"12345",}),
-	middlewares.Logger(),
-	gin.Recovery(),
+	engine.Use( 
+		//gin.BasicAuth(gin.Accounts{"tom":"12345",}),
+		middlewares.Logger(),
+		gin.Recovery(),
+		middlewares.SetSession(),
 	)
 
 

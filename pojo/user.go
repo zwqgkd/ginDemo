@@ -12,6 +12,11 @@ type User struct { //
 	Email    string `json:"UserEmail" binding:"email"`
 }
 
+type Users struct{
+	UserList []User `json:"UserList" binding:"required,gt=0,lt=3"`
+	UserListSize int `json:"UserListSize"`
+}
+
 func FindAllUsers() []User {
 	var users []User
 	database.DBConnect.Find(&users)
@@ -46,5 +51,13 @@ func DeleteUser(userId string) bool{
 //updateUser
 func UpdateUser(userId string, user User) User{
 	database.DBConnect.Where("id=?",userId).Updates(user)
+	return user
+}
+
+
+//CheckUserPassword
+func CheckUserPassword(name string,password string) User{
+	user:=User{}
+	database.DBConnect.Where("name=? and password=?",name,password).First(&user)
 	return user
 }
