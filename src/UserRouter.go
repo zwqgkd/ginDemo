@@ -3,16 +3,17 @@ package src
 import (
 	session "golangAPI/middlewares"
 	"golangAPI/service"
-
+	"golangAPI/pojo"
 	"github.com/gin-gonic/gin"
 )
 
 func AddUserRouter(r *gin.RouterGroup) {
 	//users have common middlewares session.SetSession()
 	user := r.Group("/users", session.SetSession())
-
-	user.GET("/:id", service.FindByUserId)
-	user.GET("/", service.FindAllUsers)
+	//user.GET("/",service.FindAllUsers)
+	user.GET("/",service.CachUserAllDecorator(service.RedisAllUser,"user_all",[]pojo.User{}))
+	//user.GET("/:id", service.FindByUserId)
+	user.GET("/:id",service.CachOneUserDecorator(service.RedisOneUser, "id", "user_%s",pojo.User{}))
 	user.POST("/", service.PostUser)
 	user.POST("/more", service.CreateUserList)
 

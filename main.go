@@ -3,7 +3,7 @@ package main
 import (
 	"golangAPI/database"
 	"golangAPI/middlewares"
-	. "golangAPI/src"
+	."golangAPI/src"
 	"io"
 	"os"
 	"golangAPI/pojo"

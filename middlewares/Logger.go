@@ -16,4 +16,5 @@ func Logger() gin.HandlerFunc{
 			params.StatusCode)
 		},
 	)
+	
 }
