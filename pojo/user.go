@@ -1,8 +1,13 @@
 package pojo
 
-import ("golangAPI/database"
-"log"
+import (
+	"context"
+	"golangAPI/database"
+	"log"
+	"strconv"
 
+	"go.mongodb.org/mongo-driver/bson"
+	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
 type User struct { //
@@ -61,3 +66,58 @@ func CheckUserPassword(name string,password string) User{
 	database.DBConnect.Where("name=? and password=?",name,password).First(&user)
 	return user
 }
+
+//MongoDB
+func MgoCreateUser(user User)User{
+	database.MgoCollection.InsertOne(context.TODO(),user)
+	return user
+}
+
+func MgoFindAllUsers() []User{
+	var users []User
+	cur,err:=database.MgoCollection.Find(context.TODO(),bson.M{})
+	if err!=nil{
+		log.Println(err)
+	}
+	for cur.Next(context.TODO()){
+		var user User	
+		err:=cur.Decode(&user)
+		if err!=nil{
+			log.Println(err)
+		}
+		users=append(users,user)
+	}
+	return users
+}
+
+func MgoFindById(id string) User{
+	userId,_:=strconv.Atoi(id)
+	user := User{}
+	database.MgoCollection.FindOne(context.TODO(),bson.D{{"id",userId}}).Decode(&user)
+	return user
+}
+
+func MgoPutUser(id string, user User) User{
+	userId,_:=strconv.Atoi(id)
+
+	updateUserId:=bson.D{{"id",userId}}
+	updateData:=bson.D{{"$set",user}}
+	opt:=options.Update().SetUpsert(true)
+	_,err:=database.MgoCollection.UpdateOne(context.TODO(),updateUserId,updateData,opt)
+	if err!=nil{
+		log.Println(err)
+		return User{}
+	}
+	return user
+}	
+
+func MgoDeleteUser(id string) bool{
+	userId,_:=strconv.Atoi(id)
+	_,err:=database.MgoCollection.DeleteOne(context.TODO(),bson.D{{"id",userId}})
+	if err!=nil{
+		log.Println(err)
+		return false
+	}
+	return true
+}
+

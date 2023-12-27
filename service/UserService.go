@@ -32,6 +32,7 @@ func FindByUserId(c *gin.Context){
 func PostUser(c *gin.Context){
 	user:=pojo.User{}
 	err:=c.BindJSON(&user)
+	log.Println("user->",user)
 	if err!=nil{
 		c.JSON(http.StatusNotAcceptable,"Error:"+err.Error())
 		return
@@ -137,4 +138,69 @@ func RedisAllUser(c *gin.Context){
 	users:=[]pojo.User{}
 	DB.DBConnect.Find(&users)
 	c.Set("dbUserAll",users)
+}
+
+//mongoDB---------------------------------------------------------------
+//MgoDB create user
+func MgoDBCreateUser(c *gin.Context){
+	user:=pojo.User{}
+	err:=c.BindJSON(&user)
+	if err!=nil{
+		c.JSON(http.StatusNotAcceptable,"Error:"+err.Error())
+		return
+	}
+	newUser:=pojo.MgoCreateUser(user)
+	c.JSON(http.StatusOK, gin.H{
+		"message":"Create User Successfully",
+		"user": newUser,
+	})
+}
+
+func MgoDBFindAllUser(c *gin.Context){
+	users:=pojo.MgoFindAllUsers()
+	c.JSON(http.StatusOK, gin.H{
+		"message":"Find All User Successfully",
+		"user": users,
+	})
+}
+
+func MgoDBFindOneUser(c *gin.Context){
+	user:=pojo.MgoFindById(c.Param("id"))
+	if user.Id==0{
+		c.JSON(http.StatusNotFound,"User not found")
+		return 
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"message":"Find User Successfully",
+		"user": user,
+	})
+}
+
+//MongoDB Put User
+func MgoDBPutUser(c *gin.Context){
+	user:=pojo.User{}
+	err:=c.BindJSON(&user)
+	if err!=nil{
+		c.JSON(http.StatusNotAcceptable,"Error:"+err.Error())
+		return
+	}
+	user = pojo.MgoPutUser(c.Param("id"),user)
+	if user.Id==0{
+		c.JSON(http.StatusNotFound,"User not found")
+		return 
+	}
+	c.JSON(http.StatusOK,gin.H{
+		"message":"Update User Successfully",
+		"user":user,
+	})
+}
+
+//MongoDB Delete User 
+func MgoDBDeleteUser(c *gin.Context){
+	isDeleted:=pojo.MgoDeleteUser(c.Param("id"))
+	if !isDeleted{
+		c.JSON(http.StatusNotFound,"User not found")
+		return
+	}
+	c.JSON(http.StatusOK,"success")
 }

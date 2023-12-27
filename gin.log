@@ -8,6 +8,11 @@
 [GIN-debug] GET    /v1/users/:id             --> golangAPI/src.AddUserRouter.CachOneUserDecorator.func2 (7 handlers)
 [GIN-debug] POST   /v1/users/                --> golangAPI/service.PostUser (7 handlers)
 [GIN-debug] POST   /v1/users/more            --> golangAPI/service.CreateUserList (7 handlers)
+[GIN-debug] GET    /v1/users/mongo/          --> golangAPI/service.MgoDBFindAllUser (7 handlers)
+[GIN-debug] GET    /v1/users/mongo/:id       --> golangAPI/service.MgoDBFindOneUser (7 handlers)
+[GIN-debug] PUT    /v1/users/mongo/:id       --> golangAPI/service.MgoDBPutUser (7 handlers)
+[GIN-debug] POST   /v1/users/mongo/          --> golangAPI/service.MgoDBCreateUser (7 handlers)
+[GIN-debug] DELETE /v1/users/mongo/:id       --> golangAPI/service.MgoDBDeleteUser (7 handlers)
 [GIN-debug] PUT    /v1/users/:id             --> golangAPI/service.Putuser (7 handlers)
 [GIN-debug] POST   /v1/users/login           --> golangAPI/service.LoginUser (7 handlers)
 [GIN-debug] GET    /v1/users/check           --> golangAPI/service.CheckUserSession (7 handlers)
@@ -16,19 +21,10 @@
 [GIN-debug] [WARNING] You trusted all proxies, this is NOT safe. We recommend you to set a value.
 Please check https://pkg.go.dev/github.com/gin-gonic/gin#readme-don-t-trust-all-proxies for details.
 [GIN-debug] Listening and serving HTTP on :8000
-::1 - [2023-12-13 21:22:05.027939 +0800 CST m=+8.161686401] GET /v1/users/2 200 
-[GIN] 2023/12/13 - 21:22:05 | 200 |     18.0761ms |             ::1 | GET      "/v1/users/2"
-::1 - [2023-12-13 21:22:07.7481156 +0800 CST m=+10.881863001] GET /v1/users/2 200 
-[GIN] 2023/12/13 - 21:22:07 | 200 |       1.276ms |             ::1 | GET      "/v1/users/2"
-::1 - [2023-12-13 21:22:26.9981839 +0800 CST m=+30.131931301] GET /v1/users/ 200 
-[GIN] 2023/12/13 - 21:22:26 | 200 |      1.2389ms |             ::1 | GET      "/v1/users/"
-::1 - [2023-12-13 21:22:29.2324789 +0800 CST m=+32.366226301] GET /v1/users/ 200 
-[GIN] 2023/12/13 - 21:22:29 | 200 |      1.0764ms |             ::1 | GET      "/v1/users/"
-[GIN-debug] redirecting request 301: /v1/users/ --> /v1/users/
-::1 - [2023-12-13 21:25:44.9039531 +0800 CST m=+228.037700501] GET /v1/users/ 200 
-[GIN] 2023/12/13 - 21:25:44 | 200 |      1.6519ms |             ::1 | GET      "/v1/users/"
-[GIN-debug] redirecting request 301: /v1/users/ --> /v1/users/
-10.10.83.151 - [2023-12-13 21:27:43.6243691 +0800 CST m=+346.758116501] GET /v1/users/ 200 
-[GIN] 2023/12/13 - 21:27:43 | 200 |      1.6731ms |    10.10.83.151 | GET      "/v1/users/"
-10.10.83.151 - [2023-12-13 21:27:48.8562104 +0800 CST m=+351.989957801] GET /v1/users/ 200 
-[GIN] 2023/12/13 - 21:27:48 | 200 |      2.2182ms |    10.10.83.151 | GET      "/v1/users/"
+::1 - [2023-12-26 11:01:43.8551823 +0800 CST m=+19.184477801] GET /v1/users/ 200 
+[GIN] 2023/12/26 - 11:01:43 | 200 |     12.0738ms |             ::1 | GET      "/v1/users/"
+::1 - [2023-12-26 11:01:49.0068398 +0800 CST m=+24.336135301] POST /v1/users/ 200 
+[GIN] 2023/12/26 - 11:01:49 | 200 |      7.1869ms |             ::1 | POST     "/v1/users/"
+[GIN-debug] redirecting request 301: /v1/users/mongo/ --> /v1/users/mongo/
+::1 - [2023-12-26 11:11:49.6557467 +0800 CST m=+624.985042201] GET /v1/users/mongo/ 200 
+[GIN] 2023/12/26 - 11:11:49 | 200 |      6.0965ms |             ::1 | GET      "/v1/users/mongo/"

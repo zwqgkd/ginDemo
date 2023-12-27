@@ -29,7 +29,7 @@ func main(){
 
 	engine.Use( 
 		//gin.BasicAuth(gin.Accounts{"tom":"12345",}),
-		middlewares.Logger(),
+		middlewares.Logger(),//log格式
 		gin.Recovery(),
 		middlewares.SetSession(),
 	)
@@ -40,6 +40,7 @@ func main(){
 
 	go func(){
 		database.DD()
+		database.MD()
 	}()
 	engine.Run(":8000")
 }

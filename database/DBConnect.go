@@ -2,7 +2,6 @@ package database
 
 import (
 	"log"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
